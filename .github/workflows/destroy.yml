@@ -23,5 +23,7 @@ jobs:
         run: terraform init
 
       - name: Terraform destroy
+        env:
+          TF_VAR_DB_PASSWORD: ${{ secrets.TF_VAR_DB_PASSWORD }}
         working-directory: ./src
         run: terraform apply -destroy -auto-approve
