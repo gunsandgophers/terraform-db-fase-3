@@ -9,12 +9,16 @@ locals {
   name   = "tech-challenge-fase-3-rds"
   region = "us-east-1"
 
+  db_name  = "tech_challenge_fase_3"
+  username = "tech_challenge_fase_3"
+  password = "tech_challenge_fase_3"
+  port = 5432
+
   vpc_cidr = "10.0.0.0/16"
   azs      = slice(data.aws_availability_zones.available.names, 0, 3)
 
   tags = {
     Name    = local.name
-    Example = local.name
   }
 }
 
@@ -29,26 +33,29 @@ module "db" {
   identifier = local.name
 
   # All available versions: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_PostgreSQL.html#PostgreSQL.Concepts
-  engine                   = "postgres"
-  engine_version           = "16"
-  family                   = "postgres16" # DB parameter group
-  instance_class           = "db.md5.large"
+  engine         = "postgres"
+  engine_version = "16"
+  family         = "postgres16"
+  instance_class = "db.m5.large"
 
-  allocated_storage     = 20
-  max_allocated_storage = 100
+  allocated_storage = 20
 
   # NOTE: Do NOT use 'user' as the value for 'username' as it throws:
   # "Error creating DB Instance: InvalidParameterValue: MasterUsername
   # user cannot be used as it is a reserved word used by the engine"
-  db_name  = "tech-challenge-fase-3"
-  username = "tech-challenge-fase-3"
+  db_name  = local.db_name
+  username = local.username
+  password = local.password
   port     = 5432
 
-  multi_az               = true
+  multi_az               = false
   db_subnet_group_name   = module.vpc.database_subnet_group
   vpc_security_group_ids = [module.security_group.security_group_id]
 
   deletion_protection = false
+
+  skip_final_snapshot = true
+  storage_encrypted   = false
 
   parameters = [
     {
