@@ -18,8 +18,7 @@ locals {
   region = "us-east-1"
 
   db_name  = "tech_challenge_fase_3"
-  username = "tech_challenge_fase_3"
-  password = "tech_challenge_fase_3"
+  db_username = "tech_challenge_fase_3"
   port     = 5432
 
   vpc_cidr = "10.0.0.0/16"
@@ -52,8 +51,8 @@ module "db" {
   # "Error creating DB Instance: InvalidParameterValue: MasterUsername
   # user cannot be used as it is a reserved word used by the engine"
   db_name  = local.db_name
-  username = local.username
-  password = local.password
+  username = local.db_username
+  password = var.DB_PASSWORD
   port     = 5432
 
   multi_az               = false
