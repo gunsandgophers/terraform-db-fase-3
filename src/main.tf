@@ -1,3 +1,11 @@
+terraform {
+  backend "s3" {
+    bucket = "tech-challenge-fase-3"
+    key    = "terraform"
+    region = "us-east-1"
+  }
+}
+
 provider "aws" {
   region = local.region
 }
@@ -12,13 +20,13 @@ locals {
   db_name  = "tech_challenge_fase_3"
   username = "tech_challenge_fase_3"
   password = "tech_challenge_fase_3"
-  port = 5432
+  port     = 5432
 
   vpc_cidr = "10.0.0.0/16"
   azs      = slice(data.aws_availability_zones.available.names, 0, 3)
 
   tags = {
-    Name    = local.name
+    Name = local.name
   }
 }
 
