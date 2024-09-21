@@ -1,4 +1,4 @@
 variable "DB_PASSWORD" {
- type = string
- description = "value"
+  type        = string
+  description = "Password do usuario root do banco"
 }

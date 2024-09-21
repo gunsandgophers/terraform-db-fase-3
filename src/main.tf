@@ -13,22 +13,6 @@ provider "aws" {
 data "aws_caller_identity" "current" {}
 data "aws_availability_zones" "available" {}
 
-locals {
-  name   = "tech-challenge-fase-3-rds"
-  region = "us-east-1"
-
-  db_name  = "tech_challenge_fase_3"
-  db_username = "tech_challenge_fase_3"
-  port     = 5432
-
-  vpc_cidr = "10.0.0.0/16"
-  azs      = slice(data.aws_availability_zones.available.names, 0, 3)
-
-  tags = {
-    Name = local.name
-  }
-}
-
 ################################################################################
 # RDS Module
 ################################################################################
@@ -40,10 +24,10 @@ module "db" {
   identifier = local.name
 
   # All available versions: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_PostgreSQL.html#PostgreSQL.Concepts
-  engine         = "postgres"
-  engine_version = "16"
-  family         = "postgres16"
-  instance_class = "db.m5.large"
+  engine         = local.engine
+  engine_version = local.engine_version
+  family         = local.family
+  instance_class = local.instance_class
 
   allocated_storage = 20
 
@@ -53,7 +37,7 @@ module "db" {
   db_name  = local.db_name
   username = local.db_username
   password = var.DB_PASSWORD
-  port     = 5432
+  port     = local.port
 
   multi_az               = false
   db_subnet_group_name   = module.vpc.database_subnet_group
