@@ -7,7 +7,7 @@ resource "aws_db_subnet_group" "default" {
   }
 }
 
-resource "aws_db_instance" "db-test1" {
+resource "aws_db_instance" "db-main" {
   allocated_storage      = 10
   identifier             = local.name
   db_subnet_group_name   = aws_db_subnet_group.default.id
@@ -15,8 +15,8 @@ resource "aws_db_instance" "db-test1" {
   engine_version         = local.engine_version
   instance_class         = local.instance_class
   db_name                = local.db_name
-  username               = local.db_name
-  password               = local.db_name
+  username               = local.db_username
+  password               = var.DB_PASSWORD
   vpc_security_group_ids = [aws_security_group.allow_postgres_traffic.id]
   publicly_accessible    = true
   skip_final_snapshot    = true
