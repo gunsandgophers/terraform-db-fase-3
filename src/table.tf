@@ -16,3 +16,11 @@ resource "aws_route_table_association" "a" {
   subnet_id      = element(aws_subnet.public.*.id, count.index)
   route_table_id = aws_route_table.public-rt.id
 }
+
+resource "aws_internet_gateway" "gw" {
+  vpc_id = aws_vpc.main.id
+
+  tags = {
+    Name = "main"
+  }
+}
