@@ -9,12 +9,5 @@ locals {
 
   db_name     = "tech_challenge_fase_3"
   db_username = "tech_challenge_fase_3"
-  port        = 5432
 
-  vpc_cidr = "10.0.0.0/16"
-  azs      = slice(data.aws_availability_zones.available.names, 0, 3)
-
-  tags = {
-    Name = local.name
-  }
 }
