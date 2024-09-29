@@ -36,8 +36,10 @@ module "db" {
   # user cannot be used as it is a reserved word used by the engine"
   db_name  = local.db_name
   username = local.db_username
-  password = var.DB_PASSWORD
-  port     = local.port
+
+  manage_master_user_password = true
+  password                    = var.DB_PASSWORD
+  port                        = local.port
 
   multi_az               = false
   db_subnet_group_name   = module.vpc.database_subnet_group
@@ -85,8 +87,7 @@ module "vpc" {
   database_subnets = [for k, v in local.azs : cidrsubnet(local.vpc_cidr, 8, k + 6)]
 
   create_database_subnet_group = true
-
-  tags = local.tags
+  tags                         = local.tags
 }
 
 module "security_group" {
