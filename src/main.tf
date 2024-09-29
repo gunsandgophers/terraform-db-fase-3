@@ -43,7 +43,7 @@ module "db" {
 
   multi_az               = false
   db_subnet_group_name   = module.vpc.database_subnet_group
-  vpc_security_group_ids = [module.security_group.security_group_id]
+  # vpc_security_group_ids = [module.security_group.security_group_id]
 
   deletion_protection = false
 
@@ -86,9 +86,12 @@ module "vpc" {
   private_subnets  = [for k, v in local.azs : cidrsubnet(local.vpc_cidr, 8, k + 3)]
   database_subnets = [for k, v in local.azs : cidrsubnet(local.vpc_cidr, 8, k + 6)]
 
-  create_database_subnet_group = true
+  create_database_subnet_group           = true
   create_database_internet_gateway_route = true
-  tags                         = local.tags
+  create_database_nat_gateway_route      = true
+  create_database_subnet_route_table     = true
+
+  tags = local.tags
 }
 
 module "security_group" {
