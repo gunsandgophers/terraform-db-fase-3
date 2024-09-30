@@ -8,6 +8,7 @@ resource "aws_db_subnet_group" "default" {
 }
 
 resource "aws_db_instance" "db-main" {
+  allocated_storage      = 10
   identifier             = local.name
   db_subnet_group_name   = aws_db_subnet_group.default.id
   engine                 = local.engine
